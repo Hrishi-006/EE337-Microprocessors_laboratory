@@ -1,0 +1,72 @@
+A51 MACRO ASSEMBLER  SUB16                                                                01/19/2026 19:44:31 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\sub16.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE sub16.asm SET(SMALL) DEBUG PRINT(.\Listings\sub16.lst) OBJECT(.\Objects
+                      \sub16.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+0000                   2     ORG 0H
+0000 020100            3     LJMP MAIN
+0100                   4     ORG 100H
+0100                   5     MAIN:
+0100 3130              6     CALL SUB16
+0102 80FE              7     HERE: SJMP HERE
+0130                   8     ORG 130H
+                       9     
+0130                  10     SUB16:
+                      11     
+                      12     
+0130 C3               13     CLR C
+0131 E4               14     CLR A
+0132 75F000           15     MOV B,#00H
+                      16     
+                      17     ; store the 2's complement:
+0135 E573             18     MOV A, 73H
+0137 F4               19     CPL A
+0138 2401             20     ADD A, #01H
+013A F9               21     MOV R1,A
+                      22     
+013B E572             23     MOV A,72H
+013D F4               24     CPL A
+013E 3400             25     ADDC A,#00H
+0140 F8               26     MOV R0,A
+                      27     
+0141 C3               28     CLR C
+                      29     
+0142 E571             30     MOV A, 71H
+0144 29               31     ADD A,R1
+0145 F576             32     MOV 76H,A
+                      33     
+0147 E570             34     MOV A,70H
+0149 38               35     ADDC A,R0
+014A F575             36     MOV 75H,A
+                      37     
+014C E4               38     CLR A
+014D 3400             39     ADDC A,#00H
+014F F574             40     MOV 74H,A
+                      41     
+                      42     
+0151 22               43     RET
+                      44     END
+A51 MACRO ASSEMBLER  SUB16                                                                01/19/2026 19:44:31 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+HERE . . . . . . .  C ADDR   0102H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+SUB16. . . . . . .  C ADDR   0130H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
