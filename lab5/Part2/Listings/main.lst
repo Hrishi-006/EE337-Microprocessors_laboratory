@@ -1,0 +1,121 @@
+C51 COMPILER V9.60.7.0   MAIN                                                              02/09/2026 18:52:07 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN .\Objects\main.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE main.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\main
+                    -.lst) TABS(2) OBJECT(.\Objects\main.obj)
+
+line level    source
+
+   1          #include <at89c5131.h>
+   2          // Button declaration
+   3          sbit button = P0^7;
+   4          // Add LCD pin definitions and function declarations here
+   5          unsigned int count = 0;
+   6          void lcd_init(void);
+   7          void lcd_print_number(unsigned int num);
+   8          void lcd_write_char(unsigned char ch);
+   9          void lcd_cmd(unsigned int i);
+  10          void msdelay(unsigned int time);
+  11          sbit RS=P0^0; //Register select
+  12          sbit RW=P0^1; //Read from or write to register
+  13          sbit EN=P0^2; //Enable pin of lcd
+  14          
+  15          void main()
+  16          {
+  17   1      // Initialize LCD
+  18   1      lcd_init();
+  19   1      
+  20   1      // Configure button pin
+  21   1      // Implement debounce logic
+  22   1      // Increment counter on valid press
+  23   1      // Display counter value on LCD
+  24   1      while(1){
+  25   2      
+  26   2        if(button==1){
+  27   3          msdelay(20);
+  28   3          if(button==1){
+  29   4            count++;
+  30   4            
+  31   4             lcd_cmd(0x01);
+  32   4             msdelay(2);
+  33   4             lcd_cmd(0x80);
+  34   4             lcd_print_number(count);
+  35   4             while (button == 1); // wait till release of button
+  36   4          }
+  37   3        }
+  38   2      
+  39   2        }
+  40   1      }
+  41          void msdelay(unsigned int time)
+  42          {
+  43   1      int i,j;
+  44   1      for(i=0;i<time;i++)
+  45   1      {
+  46   2      for(j=0;j<382;j++);
+  47   2      }
+  48   1      }
+  49          void lcd_init(void)
+  50          {
+  51   1        P2=0x00;
+  52   1        EN=0;
+  53   1        RS=0;
+  54   1        RW=0;
+C51 COMPILER V9.60.7.0   MAIN                                                              02/09/2026 18:52:07 PAGE 2   
+
+  55   1        
+  56   1        lcd_cmd(0x38);  // Function set: 2 Line, 8-bit, 5x7 dots
+  57   1        msdelay(4);
+  58   1        lcd_cmd(0x06);  // Entry mode, auto increment with no shift
+  59   1        msdelay(4);
+  60   1        lcd_cmd(0x0C);  // Display on, Curson off
+  61   1        msdelay(4);
+  62   1        lcd_cmd(0x01);  // LCD clear
+  63   1        msdelay(4);
+  64   1        lcd_cmd(0x80);  //Move cursor to Row 1 column 0
+  65   1      }
+  66          void lcd_print_number(unsigned int num)
+  67          {
+  68   1          unsigned char hundreds, tens, ones;
+  69   1      
+  70   1          hundreds = num / 100;
+  71   1          tens = (num / 10) % 10;
+  72   1          ones = num % 10;
+  73   1      
+  74   1          lcd_write_char(hundreds + '0');
+  75   1          lcd_write_char(tens + '0');
+  76   1          lcd_write_char(ones + '0');
+  77   1      }
+  78          void lcd_cmd(unsigned int i)
+  79          {
+  80   1        RS=0;
+  81   1        RW=0;
+  82   1        EN=1;
+  83   1        P2=i;
+  84   1        msdelay(10);
+  85   1        EN=0;
+  86   1      }
+  87          void lcd_write_char(unsigned char ch)
+  88          {
+  89   1        RS=1;
+  90   1        RW=0;
+  91   1        EN=1;
+  92   1        P2=ch;
+  93   1        msdelay(10);
+  94   1        EN=0;
+  95   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    246    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      2       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
