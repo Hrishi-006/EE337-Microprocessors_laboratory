@@ -1,0 +1,124 @@
+A51 MACRO ASSEMBLER  ERROR                                                                01/12/2026 19:33:26 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\error.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE error.asm SET(SMALL) DEBUG PRINT(.\Listings\error.lst) OBJECT(.\Objects
+                      \error.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+                       2     
+                       3     
+                       4     
+                       5     
+                       6     
+                       7     
+                       8     
+0000                   9     ORG 0H
+0000 020100           10     LJMP MAIN
+                      11     
+0100                  12     ORG 100H
+0100                  13     MAIN:
+0100 3130             14     CALL Cal
+0102 80FE             15     HERE: SJMP HERE
+                      16     
+0130                  17     ORG 130H
+0130                  18     Cal:
+                      19             ; -------- Read inputs --------
+                      20                     
+0130 E5B0             21             MOV A, P3        ; Operand 1
+0132 F550             22             MOV 50H, A
+                      23     
+0134 E5B0             24             MOV A, P3        ; Operand 2
+0136 F551             25             MOV 51H, A
+                      26     
+0138 E5B0             27             MOV A, P3        ; Opcode
+013A F554             28             MOV 54H, A
+                      29     
+                      30             ; -------- Load operands --------
+013C E550             31             MOV A, 50H
+013E 8551F0           32             MOV B, 51H
+0141 A854             33             MOV R0, 54H
+                      34     
+                      35             ; -------- ADD --------
+0143 B8010E           36             CJNE R0, #01H, CHECK_SUB
+0146 25F0             37             ADD A, B
+0148 F552             38             MOV 52H, A
+014A 755300           39             MOV 53H, #00H
+014D 5035             40             JNC ENDING
+014F 755301           41             MOV 53H, #01H
+0152 8030             42             SJMP ENDING
+                      43     
+0154                  44     CHECK_SUB:
+                      45             ; -------- SUB --------
+0154 B8020F           46             CJNE R0, #02H, CHECK_MUL
+0157 C3               47             CLR C
+0158 95F0             48             SUBB A, B
+015A F552             49             MOV 52H, A
+015C 755300           50             MOV 53H, #00H
+015F 5023             51             JNC ENDING
+0161 755301           52             MOV 53H, #01H
+0164 801E             53             SJMP ENDING
+                      54     
+0166                  55     CHECK_MUL:
+                      56             ; -------- MUL --------
+0166 B80308           57             CJNE R0, #03H, CHECK_DIV
+A51 MACRO ASSEMBLER  ERROR                                                                01/12/2026 19:33:26 PAGE     2
+
+0169 A4               58             MUL AB
+016A F552             59             MOV 52H, A       ; Low byte
+016C 85F053           60             MOV 53H, B       ; High byte
+016F 8013             61             SJMP ENDING
+                      62     
+0171                  63     CHECK_DIV:
+                      64             ; -------- DIV --------
+0171 B80408           65             CJNE R0, #04H, INVALID
+0174 84               66             DIV AB
+0175 F552             67             MOV 52H, A       ; Quotient
+0177 85F053           68             MOV 53H, B       ; Remainder
+017A 8008             69             SJMP ENDING
+                      70     
+017C                  71     INVALID:
+017C 755200           72             MOV 52H, #00H
+017F 755300           73             MOV 53H, #00H
+0182 8000             74                     SJMP ENDING
+0184                  75     ENDING:
+                      76             ; -------- Display loop (unchanged) --------
+0184 74F0             77     Y:      MOV A , #0F0H
+0186 F590             78     X:      MOV P1, A
+0188 14               79             DEC A
+0189 B400FA           80             CJNE A , #00H , X
+018C 80F6             81             JMP Y
+                      82     
+018E 22               83     RET
+                      84     
+                      85     END
+A51 MACRO ASSEMBLER  ERROR                                                                01/12/2026 19:33:26 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+CAL. . . . . . . .  C ADDR   0130H   A   
+CHECK_DIV. . . . .  C ADDR   0171H   A   
+CHECK_MUL. . . . .  C ADDR   0166H   A   
+CHECK_SUB. . . . .  C ADDR   0154H   A   
+ENDING . . . . . .  C ADDR   0184H   A   
+HERE . . . . . . .  C ADDR   0102H   A   
+INVALID. . . . . .  C ADDR   017CH   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+X. . . . . . . . .  C ADDR   0186H   A   
+Y. . . . . . . . .  C ADDR   0184H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
