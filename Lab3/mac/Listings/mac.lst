@@ -1,0 +1,159 @@
+A51 MACRO ASSEMBLER  MAC                                                                  01/26/2026 13:37:05 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\mac.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE mac.asm SET(SMALL) DEBUG PRINT(.\Listings\mac.lst) OBJECT(.\Objects\mac
+                      .obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0H
+0000 020100            2     LJMP MAIN
+0100                   3     ORG 100H
+0100                   4     MAIN:
+0100 3130              5     CALL MAC_THRESH
+0102 80FE              6     HERE: SJMP HERE
+0130                   7     ORG 130H
+                       8     
+0130                   9     MAC_THRESH:
+                      10     ; Perform MAC operation
+                      11     ; Store 18-bit result at 50H,51H,52H
+                      12     ; Compare result with T1 and T2 (use XRL if required)
+                      13     ; Set/clear P3.0 and P3.1 accordingly
+0130 C2B0             14     CLR P3.0
+0132 C2B1             15     CLR P3.1
+0134 757700           16     MOV 77H,#00H
+0137 757800           17     MOV 78H,#00H
+013A 757900           18     MOV 79H,#00H
+013D 757B00           19     MOV 7BH,#00H
+                      20     
+                      21     
+0140 E570             22     MOV A,70H
+0142 8573F0           23     MOV B,73H
+0145 A4               24     MUL AB
+0146 F554             25     MOV 54H,A
+0148 85F053           26     MOV 53H,B
+                      27     
+014B E571             28     MOV A,71H
+014D 8574F0           29     MOV B,74H
+0150 A4               30     MUL AB
+0151 F556             31     MOV 56H,A
+0153 85F055           32     MOV 55H,B
+                      33     
+0156 E572             34     MOV A,72H
+0158 8575F0           35     MOV B,75H
+015B A4               36     MUL AB
+015C F558             37     MOV 58H,A
+015E 85F057           38     MOV 57H,B
+                      39     
+0161 8039             40     SJMP ADD16
+0163                  41     behind:
+                      42     
+0163 757601           43     MOV 76H,#01H
+0166 757A80           44     MOV 7AH,#80H
+                      45     
+                      46     
+                      47     
+0169 7F03             48     MOV R7,#03H
+016B 7950             49     MOV R1,#50H
+016D 7876             50     MOV R0,#76H
+016F                  51     there:
+016F E7               52     MOV A,@R1
+0170 C3               53     CLR C
+0171 96               54     SUBB A,@R0
+0172 400C             55     JC ss  ;  when T1>x
+0174 6006             56     JZ la ; when they are equal
+0176 D2B0             57     SETB P3.0       ;when x>T1
+A51 MACRO ASSEMBLER  MAC                                                                  01/26/2026 13:37:05 PAGE     2
+
+0178 D2B1             58     SETB P3.1
+017A 801F             59     SJMP done
+017C                  60     la:
+017C 09               61     INC R1
+017D 08               62     INC R0
+                      63     
+017E DFEF             64     DJNZ R7,there
+                      65     
+0180                  66     ss:
+0180 7879             67     MOV R0,#79H
+0182 7950             68     MOV R1,#50H
+0184 7F03             69     MOV R7,#03H
+                      70     
+0186                  71     there2:
+0186 E7               72     MOV A,@R1
+0187 C3               73     CLR C
+0188 96               74     SUBB A,@R0
+0189 400C             75     JC s2  ;  when T2>x
+018B 6006             76     JZ l2 ; when they are equal
+018D C2B0             77     CLR P3.0        ;when x>T2
+018F D2B1             78     SETB P3.1
+0191 8008             79     SJMP done
+0193                  80     l2:
+0193 09               81     INC R1
+0194 08               82     INC R0
+                      83     
+0195 DFEF             84     DJNZ R7,there2
+0197                  85     s2:
+                      86     
+0197 D2B0             87     SETB P3.0
+0199 C2B1             88     CLR P3.1
+                      89     
+019B                  90     done:
+019B 22               91     RET
+019C                  92     ADD16:
+019C E4               93     CLR A
+019D C3               94     CLR C
+019E E554             95     MOV A,54H
+01A0 2556             96     ADD A,56H
+01A2 F552             97     MOV 52H,A 
+01A4 E553             98     MOV A,53H
+01A6 3555             99     ADDC A,55H
+01A8 F551            100     MOV 51H,A
+01AA E4              101     CLR A
+01AB 3400            102     ADDC A,#00H
+01AD F550            103     MOV 50H,A
+                     104     
+01AF E4              105     CLR A
+01B0 C3              106     CLR C
+01B1 E558            107     MOV A,58H
+01B3 2552            108     ADD A,52H
+01B5 F552            109     MOV 52H,A 
+01B7 E557            110     MOV A,57H
+01B9 3551            111     ADDC A,51H
+01BB F551            112     MOV 51H,A
+01BD E4              113     CLR A
+01BE 3400            114     ADDC A,#00H
+01C0 F550            115     MOV 50H,A
+01C2 809F            116     SJMP behind
+01C4 22              117     RET
+                     118     
+                     119     END
+A51 MACRO ASSEMBLER  MAC                                                                  01/26/2026 13:37:05 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ADD16. . . . . . .  C ADDR   019CH   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+BEHIND . . . . . .  C ADDR   0163H   A   
+DONE . . . . . . .  C ADDR   019BH   A   
+HERE . . . . . . .  C ADDR   0102H   A   
+L2 . . . . . . . .  C ADDR   0193H   A   
+LA . . . . . . . .  C ADDR   017CH   A   
+MAC_THRESH . . . .  C ADDR   0130H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+S2 . . . . . . . .  C ADDR   0197H   A   
+SS . . . . . . . .  C ADDR   0180H   A   
+THERE. . . . . . .  C ADDR   016FH   A   
+THERE2 . . . . . .  C ADDR   0186H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
