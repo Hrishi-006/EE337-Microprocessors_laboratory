@@ -1,0 +1,53 @@
+A51 MACRO ASSEMBLER  XORSWAP                                                              01/19/2026 19:53:32 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\xorswap.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE xorswap.asm SET(SMALL) DEBUG PRINT(.\Listings\xorswap.lst) OBJECT(.\Obj
+                      ects\xorswap.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+                       1     
+0000                   2     ORG 0H
+0000 020100            3     LJMP MAIN
+0100                   4     ORG 100H
+0100                   5     MAIN:
+0100 3130              6     CALL XORSWAP
+0102 80FE              7     HERE: SJMP HERE
+0130                   8     ORG 130H
+                       9     
+0130                  10     XORSWAP:
+                      11     
+0130 E4               12     CLR A
+                      13     
+0131 E560             14     MOV A,60H
+0133 6561             15     XRL A,61H
+0135 F8               16     MOV R0,A
+0136 6560             17     XRL A,60H
+0138 F560             18     MOV 60H,A
+                      19     
+013A E8               20     MOV A,R0
+013B 6561             21     XRL A,61H
+013D F561             22     MOV 61H,A
+                      23     
+                      24     
+013F 22               25     RET
+                      26     END
+A51 MACRO ASSEMBLER  XORSWAP                                                              01/19/2026 19:53:32 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+HERE . . . . . . .  C ADDR   0102H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+XORSWAP. . . . . .  C ADDR   0130H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

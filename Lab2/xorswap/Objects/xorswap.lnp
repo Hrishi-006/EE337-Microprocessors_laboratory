@@ -1,0 +1,3 @@
+".\Objects\xorswap.obj" 
+TO ".\Objects\xorswap" 
+PRINT(".\Listings\xorswap.m51") RAMSIZE(256) 
