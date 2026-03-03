@@ -1,0 +1,236 @@
+C51 COMPILER V9.60.7.0   Q3                                                                02/17/2026 14:38:21 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE Q3
+OBJECT MODULE PLACED IN .\Objects\q3.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE q3.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\q3.lst
+                    -) TABS(2) OBJECT(.\Objects\q3.obj)
+
+line level    source
+
+   1          #include <at89c5131.h>
+   2          
+   3          sbit pin=P0^7;
+   4          unsigned int freq;
+   5          unsigned int reload;
+   6          unsigned int target;
+   7          unsigned char done = 0;
+   8          unsigned char t1_count = 0;
+   9          
+  10          //Functions prototype
+  11          void timer0delay(void);
+  12          void timer1delay(void);
+  13          void set_timer0( unsigned int f);
+  14          
+  15          
+  16          
+  17          //Main function
+  18          void main(void)
+  19          {
+  20   1        ET0 = 1;
+  21   1        ET1 = 1; 
+  22   1        EA  = 1;
+  23   1        
+  24   1        TMOD = 0x11;
+  25   1        
+  26   1        TH1 = 0xB1;  
+  27   1        TL1 = 0xE0;
+  28   1        freq = 240;
+  29   1        set_timer0(freq);
+  30   1        TR0 = 1;
+  31   1        TR1 = 1;
+  32   1        target=50;
+  33   1        while(done==0);
+  34   1        TR0=0;
+  35   1        t1_count=0;
+  36   1        
+  37   1        done=0;
+  38   1        TH1 = 0xB1;  
+  39   1        TL1 = 0xE0;
+  40   1        freq = 240;
+  41   1        set_timer0(freq);
+  42   1        TR0 = 1;
+  43   1        TR1 = 1;
+  44   1        target=50;
+  45   1        while(done==0);
+  46   1        TR0=0;
+  47   1        t1_count=0;
+  48   1        
+  49   1        done=0;
+  50   1        TH1 = 0xB1;  
+  51   1        TL1 = 0xE0;
+  52   1        freq = 270;
+  53   1        set_timer0(freq);
+  54   1        TR0 = 1;
+C51 COMPILER V9.60.7.0   Q3                                                                02/17/2026 14:38:21 PAGE 2   
+
+  55   1        TR1 = 1;
+  56   1        target=100;
+  57   1        while(done==0);
+  58   1        TR0=0;
+  59   1        t1_count=0;
+  60   1      
+  61   1        done=0;
+  62   1        TH1 = 0xB1;  
+  63   1        TL1 = 0xE0;
+  64   1        freq = 240;
+  65   1        set_timer0(freq);
+  66   1        TR0 = 1;
+  67   1        TR1 = 1;
+  68   1        target=100;
+  69   1        while(done==0);
+  70   1        TR0=0;
+  71   1        t1_count=0;
+  72   1        
+  73   1        done=0;
+  74   1        TH1 = 0xB1;  
+  75   1        TL1 = 0xE0;
+  76   1        freq = 320;
+  77   1        set_timer0(freq);
+  78   1        TR0 = 1;
+  79   1        TR1 = 1;
+  80   1        target=100;
+  81   1        while(done==0);
+  82   1        TR0=0;
+  83   1        t1_count=0;
+  84   1        
+  85   1        done=0;
+  86   1        TH1 = 0xB1;  
+  87   1        TL1 = 0xE0;
+  88   1        freq = 300;
+  89   1        set_timer0(freq);
+  90   1        TR0 = 1;
+  91   1        TR1 = 1;
+  92   1        target=200;
+  93   1        while(done==0);
+  94   1        TR0=0;
+  95   1        t1_count=0;
+  96   1      
+  97   1        done=0;
+  98   1        TH1 = 0xB1;  
+  99   1        TL1 = 0xE0;
+ 100   1        freq = 240;
+ 101   1        set_timer0(freq);
+ 102   1        TR0 = 1;
+ 103   1        TR1 = 1;
+ 104   1        target=50;
+ 105   1        while(done==0);
+ 106   1        TR0=0;
+ 107   1        t1_count=0;
+ 108   1        
+ 109   1        
+ 110   1        done=0;
+ 111   1        TH1 = 0xB1;  
+ 112   1        TL1 = 0xE0;
+ 113   1        freq = 240;
+ 114   1        set_timer0(freq);
+ 115   1        TR0 = 1;
+ 116   1        TR1 = 1;
+C51 COMPILER V9.60.7.0   Q3                                                                02/17/2026 14:38:21 PAGE 3   
+
+ 117   1        target=50;
+ 118   1        while(done==0);
+ 119   1        TR0=0;
+ 120   1        t1_count=0;
+ 121   1      
+ 122   1        
+ 123   1        done=0;
+ 124   1        TH1 = 0xB1;  
+ 125   1        TL1 = 0xE0;
+ 126   1        freq = 270;
+ 127   1        set_timer0(freq);
+ 128   1        TR0 = 1;
+ 129   1        TR1 = 1;
+ 130   1        target=100;
+ 131   1        while(done==0);
+ 132   1        TR0=0;
+ 133   1        t1_count=0;
+ 134   1        
+ 135   1        
+ 136   1        done=0;
+ 137   1        TH1 = 0xB1;  
+ 138   1        TL1 = 0xE0;
+ 139   1        freq = 240;
+ 140   1        set_timer0(freq);
+ 141   1        TR0 = 1;
+ 142   1        TR1 = 1;
+ 143   1        target=100;
+ 144   1        while(done==0);
+ 145   1        TR0=0;
+ 146   1        t1_count=0;
+ 147   1        
+ 148   1        
+ 149   1        done=0;
+ 150   1        TH1 = 0xB1;  
+ 151   1        TL1 = 0xE0;
+ 152   1        freq = 360;
+ 153   1        set_timer0(freq);
+ 154   1        TR0 = 1;
+ 155   1        TR1 = 1;
+ 156   1        target=100;
+ 157   1        while(done==0);
+ 158   1        TR0=0;
+ 159   1        t1_count=0;
+ 160   1        
+ 161   1        
+ 162   1        done=0;
+ 163   1        TH1 = 0xB1;  
+ 164   1        TL1 = 0xE0;
+ 165   1        freq = 320;
+ 166   1        set_timer0(freq);
+ 167   1        TR0 = 1;
+ 168   1        TR1 = 1;
+ 169   1        target=200;
+ 170   1        while(done==0);
+ 171   1        TR0=0;
+ 172   1      
+ 173   1      
+ 174   1      while(1);
+ 175   1      }
+ 176          void set_timer0( unsigned int f){
+ 177   1        unsigned long count;
+ 178   1        
+C51 COMPILER V9.60.7.0   Q3                                                                02/17/2026 14:38:21 PAGE 4   
+
+ 179   1        count = (1000000UL/f)-7;
+ 180   1        reload= 65536-count;
+ 181   1        TH0 = (reload >> 8);
+ 182   1        TL0 = reload & 0xFF;
+ 183   1      }
+ 184          void timer0_isr() interrupt 1
+ 185          {
+ 186   1          pin=~pin  ;  // square wave
+ 187   1      
+ 188   1          // reload based on your frequency
+ 189   1          TH0 = (reload >> 8)& 0xFF;
+ 190   1          TL0 = reload;
+ 191   1          
+ 192   1      }
+ 193          
+ 194          void timer1_isr() interrupt 3
+ 195          {
+ 196   1          TH1 = 0xB1;     // reload for 10 ms
+ 197   1          TL1 = 0xE0;
+ 198   1      
+ 199   1          t1_count++;
+ 200   1      
+ 201   1          if(t1_count >= target)   // 50 × 10 ms = 500 ms
+ 202   1          {
+ 203   2              done = 1;
+ 204   2              TR1 = 0;         // stop Timer1
+ 205   2          }
+ 206   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    463    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
