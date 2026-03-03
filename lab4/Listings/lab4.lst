@@ -1,0 +1,232 @@
+A51 MACRO ASSEMBLER  LAB4                                                                 02/03/2026 16:18:25 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\lab4.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE lab4.asm SET(SMALL) DEBUG PRINT(.\Listings\lab4.lst) OBJECT(.\Objects\l
+                      ab4.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0H
+0000 020100            2     LJMP MAIN
+0100                   3     ORG 100H
+0100                   4     MAIN:
+0100 3165              5     CALL TAKE_INP
+0102 3190              6     CALL CHECK_SORT
+                       7     
+0104 80FE              8     HERE: SJMP HERE
+0130                   9     ORG 130H
+                      10     
+0130                  11     DELAY:
+0130                  12     delay_4:
+0130 C006             13     push 06h
+0132 7E04             14     mov r6, #4
+0134 3146             15     h3: acall delay_1
+0136 DEFC             16     djnz r6, h3
+0138 D006             17     pop 06h
+013A 22               18     ret
+013B                  19     delay_8:
+013B C006             20     push 06h
+013D 7E08             21     mov r6, #8
+013F 3146             22     h4: acall delay_1
+0141 DEFC             23     djnz r6, h4
+0143 D006             24     pop 06h
+0145 22               25     ret
+0146                  26     delay_1:
+0146 C006             27     push 06h
+0148 7E64             28     mov r6, #100
+014A 3151             29     h5: acall delay_10ms
+014C DEFC             30     djnz r6, h5
+014E D006             31     pop 06h
+0150 22               32     ret
+0151                  33     delay_10ms:
+0151 C006             34     push 06h
+0153 7E28             35     mov r6, #40
+0155 315C             36     h2: acall delay_250us
+0157 DEFC             37     djnz r6, h2
+0159 D006             38     pop 06h
+015B 22               39     ret
+015C                  40     delay_250us:
+015C C006             41     push 06h
+015E 7EF4             42     mov r6, #244
+0160 DEFE             43     h1: djnz r6, h1
+0162 D006             44     pop 06h
+0164 22               45     ret
+                      46     
+                      47     
+                      48     
+0165                  49     TAKE_INP:
+0165 7801             50     MOV R0,#01H
+0167 7950             51     MOV R1,#50H
+                      52     
+0169                  53     loop:
+                      54     
+0169 E8               55     MOV A,R0 ;light the pins
+016A 540F             56     ANL A,#0FH
+016C C4               57     SWAP A
+A51 MACRO ASSEMBLER  LAB4                                                                 02/03/2026 16:18:25 PAGE     2
+
+016D 440F             58     ORL A,#0FH 
+016F F590             59     MOV P1,A
+0171 313B             60     ACALL delay_8
+                      61     
+                      62     ;take the higher input bits
+0173 E590             63     MOV A,P1
+0175 540F             64     ANL A,#0FH
+0177 C4               65     SWAP A
+0178 F7               66     MOV @R1,A
+                      67     
+                      68     
+0179 08               69     INC R0
+                      70     
+017A E8               71     MOV A,R0 ;light the pins
+017B 540F             72     ANL A,#0FH
+017D C4               73     SWAP A
+017E 440F             74     ORL A,#0FH 
+0180 F590             75     MOV P1,A
+0182 313B             76     ACALL delay_8
+                      77     
+0184 E590             78     MOV A,P1        ;lower bits
+0186 540F             79     ANL A,#0FH
+0188 27               80     ADD A,@R1
+0189 F7               81     MOV @R1,A
+018A 09               82     INC R1
+018B 08               83     INC R0
+018C B80DDA           84     CJNE R0,#0DH,loop
+                      85     
+018F 22               86     RET
+                      87     
+                      88     
+0190                  89     CHECK_SORT:
+                      90     ; Check if array of 5 elements is sorted
+0190 7804             91     MOV R0,#04H
+0192 7950             92     MOV R1,#50H
+0194                  93     here2: 
+0194 E7               94     MOV A,@R1      
+0195 09               95         INC R1
+0196 C3               96         CLR C
+0197 97               97         SUBB A,@R1     
+0198 4004             98         JC CONTINUE    
+019A 6002             99         JZ CONTINUE    
+                     100     
+019C 8028            101         SJMP not_sorted
+                     102     
+019E                 103     CONTINUE:
+019E D8F4            104         DJNZ R0, here2
+01A0 8000            105             SJMP sorted
+                     106     
+                     107     
+                     108     
+01A2                 109     BIN_SEARCH:
+01A2                 110     sorted:
+01A2 7F50            111         MOV R7,#50H      ; low
+01A4 7954            112         MOV R1,#54H      ; high
+01A6                 113     behind:
+                     114         ; Check if low > high
+01A6 EF              115         MOV A,R7
+01A7 C3              116         CLR C
+01A8 99              117         SUBB A,R1
+01A9 4004            118         JC continue_search   ; low < high, continue
+01AB 6002            119         JZ continue_search   ; low == high, one element left to check
+01AD 8020            120         SJMP not_found       ; low > high, not found
+                     121     
+01AF                 122     continue_search:
+                     123         ; Calculate mid = (low + high) / 2
+A51 MACRO ASSEMBLER  LAB4                                                                 02/03/2026 16:18:25 PAGE     3
+
+01AF EF              124         MOV A,R7
+01B0 29              125         ADD A,R1
+01B1 C3              126         CLR C
+01B2 13              127         RRC A
+01B3 F8              128         MOV R0,A
+                     129         
+                     130         ; Compare array[mid] with key
+01B4 E6              131         MOV A,@R0
+01B5 C3              132         CLR C
+01B6 9555            133         SUBB A,55H
+01B8 601E            134         JZ found
+01BA 4005            135         JC there          ; key > mid
+                     136         
+                     137         ; key < mid, search lower half
+01BC E8              138         MOV A,R0
+01BD 14              139         DEC A
+01BE F9              140         MOV R1,A          ; high = mid - 1
+01BF 80E5            141         SJMP behind
+                     142         
+01C1                 143     there:
+                     144         ; key > mid, search upper half
+01C1 E8              145         MOV A,R0
+01C2 04              146         INC A
+01C3 FF              147         MOV R7,A          ; low = mid + 1
+01C4 80E0            148         SJMP behind
+                     149             
+01C6                 150     LED_DISP:
+                     151     ; Display result or error on LEDs
+                     152     
+01C6                 153     not_sorted:
+01C6 3130            154     ACALL delay_4
+01C8 7590F0          155     MOV P1,#0F0H
+01CB 3130            156     ACALL delay_4
+01CD 8016            157     SJMP done
+                     158     
+01CF                 159     not_found:
+01CF 3130            160     ACALL delay_4
+01D1 759080          161     MOV P1,#80H
+01D4 3130            162     ACALL delay_4
+01D6 800D            163     SJMP done
+01D8                 164     found:
+01D8 3130            165     ACALL delay_4
+01DA E8              166     MOV A,R0
+01DB C3              167     CLR C
+01DC 9450            168     SUBB A,#50H
+01DE 2401            169     ADD A,#01H
+01E0 C4              170     SWAP A
+01E1 F590            171     MOV P1,A
+01E3 3130            172     ACALL delay_4
+01E5                 173     done:
+01E5 22              174     RET
+                     175     END
+A51 MACRO ASSEMBLER  LAB4                                                                 02/03/2026 16:18:25 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+BEHIND . . . . . .  C ADDR   01A6H   A   
+BIN_SEARCH . . . .  C ADDR   01A2H   A   
+CHECK_SORT . . . .  C ADDR   0190H   A   
+CONTINUE . . . . .  C ADDR   019EH   A   
+CONTINUE_SEARCH. .  C ADDR   01AFH   A   
+DELAY. . . . . . .  C ADDR   0130H   A   
+DELAY_1. . . . . .  C ADDR   0146H   A   
+DELAY_10MS . . . .  C ADDR   0151H   A   
+DELAY_250US. . . .  C ADDR   015CH   A   
+DELAY_4. . . . . .  C ADDR   0130H   A   
+DELAY_8. . . . . .  C ADDR   013BH   A   
+DONE . . . . . . .  C ADDR   01E5H   A   
+FOUND. . . . . . .  C ADDR   01D8H   A   
+H1 . . . . . . . .  C ADDR   0160H   A   
+H2 . . . . . . . .  C ADDR   0155H   A   
+H3 . . . . . . . .  C ADDR   0134H   A   
+H4 . . . . . . . .  C ADDR   013FH   A   
+H5 . . . . . . . .  C ADDR   014AH   A   
+HERE . . . . . . .  C ADDR   0104H   A   
+HERE2. . . . . . .  C ADDR   0194H   A   
+LED_DISP . . . . .  C ADDR   01C6H   A   
+LOOP . . . . . . .  C ADDR   0169H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+NOT_FOUND. . . . .  C ADDR   01CFH   A   
+NOT_SORTED . . . .  C ADDR   01C6H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+SORTED . . . . . .  C ADDR   01A2H   A   
+TAKE_INP . . . . .  C ADDR   0165H   A   
+THERE. . . . . . .  C ADDR   01C1H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
