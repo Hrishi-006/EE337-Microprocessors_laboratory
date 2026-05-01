@@ -1,30 +1,22 @@
-# EE337 Course Project — I2C Device Driver on PT-51
+# I2C Device Driver for 8051 (PT-51 Board)
 
-![IIT Bombay](https://img.shields.io/badge/IIT%20Bombay-EE337-blue)
-
-Course project for **EE337 Microprocessors Laboratory**, Wadhwani Electronics
-Laboratory, Electrical Engineering, IIT Bombay.
-
-The project builds a baremetal I2C device driver on the **AT89C5131A-based PT-51
-board** to communicate with a BMP280 pressure sensor and a DS1307 RTC module,
-progressing from low-level register reads to a reusable driver library and a
-full RTC application.
+A baremetal I2C device driver written in C for the AT89C5131A-based PT-51
+microcontroller. The driver was used to interface a BMP280 pressure sensor
+and a DS1307 RTC module, with output on an onboard LCD and over UART.
 
 ---
 
+## What it does
 
-
-## Hardware
-
-- PT-51 board (AT89C5131A — 8051 core)
-- BMP280 pressure + temperature sensor (I2C slave)
-- DS1307 RTC module (I2C slave, 100 kHz)
-- 16×2 LCD (onboard, for debug output)
-- 10 kΩ pull-up resistors on SDA (`P4.1`) and SCL (`P4.0`)
+- Implements I2C master communication from scratch on the 8051
+- Reads the WHO_AM_I register of the BMP280 to verify communication
+- Provides a reusable driver library for reading/writing any I2C device
+- Interfaces with the DS1307 RTC to fetch and display timestamps in BCD format
+- Prints time and temperature data to a PC via UART serial terminal
 
 ---
 
-## I2C Driver API (Phase 2)
+## Driver API
 
 ```c
 void    I2C_Start(void);
@@ -35,22 +27,20 @@ void    I2C_Ack(void);
 void    I2C_Nack(void);
 ```
 
-Declare in `i2c.h`, define in `i2c.c`. Additional helper functions may be added.
+---
+
+## Hardware
+
+- PT-51 board (AT89C5131A — 8051 core)
+- BMP280 pressure + temperature sensor
+- DS1307 RTC module
+- Onboard 16×2 LCD
+- 10 kΩ pull-up resistors on SDA (P4.1) and SCL (P4.0)
 
 ---
 
-## Configuration Notes
+## Configuration
 
-- UART baud rate: **1200**
-- I2C speed: **100 kHz** (DS1307 requirement)
-- RTC power-up delay: **200 ms**
-- All DIP switches **OFF** when using Port 1 pins for I2C
-
----
-
-## References
-
-- Texas Instruments — *Understanding the I2C Bus* (white paper)
-- AT89C5131A datasheet — Two Wire Interface section
-- BMP280 datasheet — Register Map section
-- DS1307 RTC datasheet
+- I2C speed: 100 kHz
+- UART baud rate: 1200
+- RTC power-up delay: 200 ms
