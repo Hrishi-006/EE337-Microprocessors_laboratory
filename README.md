@@ -12,18 +12,7 @@ full RTC application.
 
 ---
 
-## Project Structure
----
 
-## Phases
-
-| Phase | Week | Goal | Points |
-|-------|------|------|--------|
-| Phase 1 | Week 1 | Baremetal read of BMP280 WHO_AM_I register; LCD debug | 10 |
-| Phase 2 | Week 2 | Custom I2C driver library (`i2c.h` / `i2c.c`) | 15 |
-| Phase 3 | Week 3 | DS1307 RTC timestamps on LCD + UART to PC | 5 |
-
----
 
 ## Hardware
 
